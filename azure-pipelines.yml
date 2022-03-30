@@ -6,12 +6,23 @@
 trigger:
 - master
 
-pool:
-  vmImage: ubuntu-latest
+resources:
+  containers:
+  - container: sdk5
+    image: mcr.microsoft.com/dotnet/sdk:5.0   
 
 variables:
   buildConfiguration: 'Release'
+  
+jobs:
+- job: build
+  container: sdk5
+  steps:
+  - script: dotnet restore
+  - script: dotnet publish -c Release -o out
 
-steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+
+
+#steps:
+#- script: dotnet build --configuration $(buildConfiguration)
+ # displayName: 'dotnet build $(buildConfiguration)'
